@@ -1,0 +1,182 @@
+
+-Goal-
+Given a text document that is potentially relevant to this activity, first identify all entities needed from the text in order to capture the information and ideas in the text.
+Next, report all relationships among the identified entities.
+
+-Steps-
+1. Identify all entities. For each identified entity, extract the following information:
+- entity_name: Name of the entity, capitalized
+- entity_type: Suggest several labels or categories for the entity. The categories should not be specific, but should be as general as possible.
+- entity_description: Comprehensive description of the entity's attributes and activities
+Format each entity as ("entity"{tuple_delimiter}<entity_name>{tuple_delimiter}<entity_type>{tuple_delimiter}<entity_description>)
+
+2. From the entities identified in step 1, identify all pairs of (source_entity, target_entity) that are *clearly related* to each other.
+For each pair of related entities, extract the following information:
+- source_entity: name of the source entity, as identified in step 1
+- target_entity: name of the target entity, as identified in step 1
+- relationship_description: explanation as to why you think the source entity and the target entity are related to each other
+- relationship_strength: a numeric score indicating strength of the relationship between the source entity and target entity
+Format each relationship as ("relationship"{tuple_delimiter}<source_entity>{tuple_delimiter}<target_entity>{tuple_delimiter}<relationship_description>{tuple_delimiter}<relationship_strength>)
+
+3. Return output in English as a single list of all the entities and relationships identified in steps 1 and 2. Use **{record_delimiter}** as the list delimiter.
+
+4. If you have to translate into English, just translate the descriptions, nothing else!
+
+5. When finished, output {completion_delimiter}.
+
+-Examples-
+######################
+
+Example 1:
+
+text:
+The paper titled 'can we make middle age less miserable?' discusses: The article recommends several books and a podcast that offer insight on issues pertinent to middle-aged professionals. The book, 'Hags' by Victoria Smith and 'Revolting Women' by Lucy Ryan offers insightful stories, advice and inspiration for older women, as does the podcast 'Wiser than Me' hosted by Julia Louis-Dreyfus. The book 'Learning to Love Midlife' by Chip Conley details the struggles of midlife from a male perspective. Karen Walrond's 'Radiant Rebellion' likewise promotes the idea of aging gracefully, with midlife being a time for personal evolution.
+
+The paper titled 'the gender gap in phd entrepreneurship: why balancing employment in academia really matters.' discusses: We use original data from a questionnaire survey of 9062 individuals enrolled in PhD programmes in Italy between 2008 and 2014 to conduct an empirical investigation of gender issues in PhD entrepreneurship. The analysis focuses on the influence of the gender balance among academics at the parent university, to measure the opportunities available to female students to engage with same-sex role models and the effect of such engagement on female students' attitudes to applied research and entrepreneurship. Our evidence shows that there is a gender gap in PhD
+------------------------
+output:
+("entity"{tuple_delimiter}CAN WE MAKE MIDDLE AGE LESS MISERABLE?{tuple_delimiter}PAPER{tuple_delimiter}A paper discussing issues pertinent to middle-aged professionals and recommending resources for them)
+{record_delimiter}
+("entity"{tuple_delimiter}HAGS{tuple_delimiter}BOOK{tuple_delimiter}A book by Victoria Smith that offers insightful stories, advice, and inspiration for older women)
+{record_delimiter}
+("entity"{tuple_delimiter}REVOLTING WOMEN{tuple_delimiter}BOOK{tuple_delimiter}A book by Lucy Ryan that provides stories and advice for older women)
+{record_delimiter}
+("entity"{tuple_delimiter}WISER THAN ME{tuple_delimiter}PODCAST{tuple_delimiter}A podcast hosted by Julia Louis-Dreyfus that offers insights relevant to middle-aged professionals)
+{record_delimiter}
+("entity"{tuple_delimiter}LEARNING TO LOVE MIDLIFE{tuple_delimiter}BOOK{tuple_delimiter}A book by Chip Conley detailing the struggles of midlife from a male perspective)
+{record_delimiter}
+("entity"{tuple_delimiter}RADIANT REBELLION{tuple_delimiter}BOOK{tuple_delimiter}A book by Karen Walrond promoting the idea of aging gracefully and personal evolution during midlife)
+{record_delimiter}
+("entity"{tuple_delimiter}THE GENDER GAP IN PHD ENTREPRENEURSHIP{tuple_delimiter}PAPER{tuple_delimiter}A paper investigating gender issues in PhD entrepreneurship using data from a questionnaire survey in Italy)
+{record_delimiter}
+("entity"{tuple_delimiter}PH.D. PROGRAMMES IN ITALY{tuple_delimiter}EDUCATIONAL PROGRAM{tuple_delimiter}PhD programmes in Italy that were surveyed for gender issues in entrepreneurship)
+{record_delimiter}
+("entity"{tuple_delimiter}GENDER BALANCE AMONG ACADEMICS{tuple_delimiter}CONCEPT{tuple_delimiter}The concept of gender balance among academics at universities and its influence on female students' opportunities)
+{record_delimiter}
+("entity"{tuple_delimiter}SAME-SEX ROLE MODELS{tuple_delimiter}CONCEPT{tuple_delimiter}Role models of the same gender that influence female students' attitudes towards research and entrepreneurship)
+{record_delimiter}
+("entity"{tuple_delimiter}FEMALE STUDENTS{tuple_delimiter}PERSON{tuple_delimiter}Students enrolled in PhD programmes who are female and are influenced by gender balance and role models)
+{record_delimiter}
+("relationship"{tuple_delimiter}CAN WE MAKE MIDDLE AGE LESS MISERABLE?{tuple_delimiter}HAGS{tuple_delimiter}The paper recommends the book 'Hags' as a resource for middle-aged professionals{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}CAN WE MAKE MIDDLE AGE LESS MISERABLE?{tuple_delimiter}REVOLTING WOMEN{tuple_delimiter}The paper recommends the book 'Revolting Women' as a resource for middle-aged professionals{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}CAN WE MAKE MIDDLE AGE LESS MISERABLE?{tuple_delimiter}WISER THAN ME{tuple_delimiter}The paper recommends the podcast 'Wiser than Me' as a resource for middle-aged professionals{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}CAN WE MAKE MIDDLE AGE LESS MISERABLE?{tuple_delimiter}LEARNING TO LOVE MIDLIFE{tuple_delimiter}The paper discusses the book 'Learning to Love Midlife' as it details struggles of midlife{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}CAN WE MAKE MIDDLE AGE LESS MISERABLE?{tuple_delimiter}RADIANT REBELLION{tuple_delimiter}The paper discusses 'Radiant Rebellion' as promoting aging gracefully during midlife{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}THE GENDER GAP IN PHD ENTREPRENEURSHIP{tuple_delimiter}PH.D. PROGRAMMES IN ITALY{tuple_delimiter}The paper uses data from PhD programmes in Italy to investigate gender issues in entrepreneurship{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}THE GENDER GAP IN PHD ENTREPRENEURSHIP{tuple_delimiter}GENDER BALANCE AMONG ACADEMICS{tuple_delimiter}The paper focuses on the influence of gender balance among academics on female students' opportunities{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}THE GENDER GAP IN PHD ENTREPRENEURSHIP{tuple_delimiter}SAME-SEX ROLE MODELS{tuple_delimiter}The paper discusses the effect of same-sex role models on female students' attitudes towards research and entrepreneurship{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}THE GENDER GAP IN PHD ENTREPRENEURSHIP{tuple_delimiter}FEMALE STUDENTS{tuple_delimiter}The paper analyzes the impact of gender balance on female students in PhD programmes{tuple_delimiter}8)
+{completion_delimiter}
+#############################
+
+
+Example 2:
+
+text:
+ Consistent with firms avoiding costly regulation, we document significant bunching around three major regulatory thresholds. Estimations reveal that the three examined rules' compliance costs range from 1.2% to 1.8% of market capitalization for firms near thresholds. For a median U.S. public company, total costs amount to 4.3% of market capitalization, and at least 2.3% absent regulatory avoidance frictions. These cost estimates are robust across various extrapolation assumptions, ranging from 2.1% to 6.3% of market capitalization. Regulatory costs have a greater impact on private firms' IPO decisions than on public firms' going private decisions, but such costs only explain a small part of the decline in the number of public firms. 
+
+The paper titled 'what can business learn from art?' discusses: An essay is presented which explores the intersection of art and business, urging readers to consider the value of understanding the artistic process in achieving success. Through insights from various books and a TV show, the article emphasizes the importance of learning from the arts, highlighting parallels between artistic creation and business enterprise. It suggests that true accomplishment, akin to the craftsmanship found in art, can elevate business pursuits beyond mere achievement. The author concludes by advocating
+------------------------
+output:
+("entity"{tuple_delimiter}REGULATORY THRESHOLDS{tuple_delimiter}CONCEPT{tuple_delimiter}Regulatory thresholds are specific points at which compliance costs for firms significantly increase, influencing their operational decisions)
+{record_delimiter}
+("entity"{tuple_delimiter}COMPLIANCE COSTS{tuple_delimiter}CONCEPT{tuple_delimiter}Compliance costs are expenses incurred by firms to adhere to regulations, which can impact their market capitalization and financial decisions)
+{record_delimiter}
+("entity"{tuple_delimiter}U.S. PUBLIC COMPANY{tuple_delimiter}ORGANIZATION{tuple_delimiter>A median U.S. public company is a publicly traded firm in the United States, which faces regulatory costs that can affect its market capitalization)
+{record_delimiter}
+("entity"{tuple_delimiter}PRIVATE FIRMS{tuple_delimiter}ORGANIZATION{tuple_delimiter}Private firms are companies that are not publicly traded and may experience different regulatory impacts compared to public firms, particularly regarding IPO decisions)
+{record_delimiter}
+("entity"{tuple_delimiter}PUBLIC FIRMS{tuple_delimiter}ORGANIZATION{tuple_delimiter>Public firms are companies that have issued shares to the public and are subject to regulatory scrutiny, which can influence their decisions to go private)
+{record_delimiter}
+("entity"{tuple_delimiter}PAPER TITLED 'WHAT CAN BUSINESS LEARN FROM ART?'{tuple_delimiter}DOCUMENT{tuple_delimiter}This paper discusses the relationship between art and business, emphasizing the value of understanding artistic processes for achieving success in business)
+{record_delimiter}
+("entity"{tuple_delimiter}ARTISTIC PROCESS{tuple_delimiter}CONCEPT{tuple_delimiter>The artistic process refers to the methods and practices involved in creating art, which can provide insights applicable to business success)
+{record_delimiter}
+("entity"{tuple_delimiter}BOOKS AND TV SHOW{tuple_delimiter}MEDIA{tuple_delimiter>Various books and a TV show are referenced in the paper to illustrate the connections between art and business)
+{record_delimiter}
+("relationship"{tuple_delimiter}REGULATORY THRESHOLDS{tuple_delimiter}COMPLIANCE COSTS{tuple_delimiter>Compliance costs are significantly influenced by regulatory thresholds, as firms incur higher costs when approaching these points{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}U.S. PUBLIC COMPANY{tuple_delimiter}COMPLIANCE COSTS{tuple_delimiter>Compliance costs for U.S. public companies are estimated to be a percentage of their market capitalization, affecting their financial strategies{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}PRIVATE FIRMS{tuple_delimiter}COMPLIANCE COSTS{tuple_delimiter>Compliance costs have a greater impact on private firms' IPO decisions compared to public firms' decisions to go private{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}PUBLIC FIRMS{tuple_delimiter}COMPLIANCE COSTS{tuple_delimiter>Public firms face compliance costs that can influence their decision-making regarding going private{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}PAPER TITLED 'WHAT CAN BUSINESS LEARN FROM ART?'{tuple_delimiter}ARTISTIC PROCESS{tuple_delimiter>The paper explores how understanding the artistic process can enhance business success, drawing parallels between the two fields{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}PAPER TITLED 'WHAT CAN BUSINESS LEARN FROM ART?'{tuple_delimiter}BOOKS AND TV SHOW{tuple_delimiter>The paper references various books and a TV show to support its arguments about the intersection of art and business{tuple_delimiter}5)
+{completion_delimiter}
+#############################
+
+
+Example 3:
+
+text:
+ for a shift towards a focus on meaningful endeavors in the corporate world.
+
+The paper titled 'universal basic income: a dynamic assessment.' discusses: Universal basic income (UBI) is an increasingly popular policy proposal, but there is no evidence regarding its longer-term consequences. We find that UBI generates large welfare losses in a general equilibrium model with imperfect capital markets, labor market shocks, and intergenerational linkages via skill formation and transfers. This conclusion is robust to various alternative ways of financing UBI. By using observationally equivalent models that eliminate different sources of endogenous dynamic linkages (equilibrium capital market and parental investment in child skills), we show that the latter are largely responsible for the negative welfare consequences. (JEL H24, H31, I38, J22, J24, J62) 
+
+The paper titled 'persuading skeptics and fans in the presence of additional information.' discusses: We consider the information design problem of a demand-maximizing firm launching a product of unknown quality to a market consisting of customers who have heterogeneous prior beliefs about quality. The firm publicly discloses information about quality to all customers. These customers can subsequently opt to acquire additional information about the product at a cost from sources beyond the firm's control. Our study is
+------------------------
+output:
+("entity"{tuple_delimiter}UNIVERSAL BASIC INCOME{tuple_delimiter}CONCEPT{tuple_delimiter}Universal Basic Income (UBI) is a policy proposal aimed at providing all citizens with a regular, unconditional sum of money from the government, intended to alleviate poverty and reduce inequality)
+{record_delimiter}
+("entity"{tuple_delimiter}WELFARE LOSSES{tuple_delimiter}CONCEPT{tuple_delimiter}Welfare losses refer to the economic losses that occur when resources are not allocated efficiently, leading to a decrease in overall societal welfare)
+{record_delimiter}
+("entity"{tuple_delimiter}GENERAL EQUILIBRIUM MODEL{tuple_delimiter}MODEL{tuple_delimiter}A general equilibrium model is an economic model that analyzes the interactions between various markets and agents in an economy, considering the simultaneous determination of prices and quantities)
+{record_delimiter}
+("entity"{tuple_delimiter}IMPERFECT CAPITAL MARKETS{tuple_delimiter}CONCEPT{tuple_delimiter}Imperfect capital markets are financial markets where the assumptions of perfect competition do not hold, leading to inefficiencies in the allocation of capital)
+{record_delimiter}
+("entity"{tuple_delimiter}LABOR MARKET SHOCKS{tuple_delimiter}CONCEPT{tuple_delimiter}Labor market shocks are unexpected events that significantly affect employment levels, wages, or the overall functioning of the labor market)
+{record_delimiter}
+("entity"{tuple_delimiter}INTERGENERATIONAL LINKAGES{tuple_delimiter}CONCEPT{tuple_delimiter}Intergenerational linkages refer to the connections and influences between different generations, particularly in terms of skill formation and resource transfers)
+{record_delimiter}
+("entity"{tuple_delimiter}SKILL FORMATION{tuple_delimiter}CONCEPT{tuple_delimiter}Skill formation is the process through which individuals acquire the skills and competencies necessary for employment and economic participation)
+{record_delimiter}
+("entity"{tuple_delimiter}TRANSFERS{tuple_delimiter}CONCEPT{tuple_delimiter}Transfers refer to the redistribution of income or resources from one group to another, often through government programs or social welfare initiatives)
+{record_delimiter}
+("entity"{tuple_delimiter}INFORMATION DESIGN PROBLEM{tuple_delimiter}CONCEPT{tuple_delimiter}The information design problem involves strategizing how to present information to influence the beliefs and behaviors of individuals or groups, particularly in marketing contexts)
+{record_delimiter}
+("entity"{tuple_delimiter}DEMAND-MAXIMIZING FIRM{tuple_delimiter}ORGANIZATION{tuple_delimiter}A demand-maximizing firm is a business that seeks to maximize its sales and revenue by understanding and responding to consumer demand)
+{record_delimiter}
+("entity"{tuple_delimiter}PRODUCT QUALITY{tuple_delimiter}CONCEPT{tuple_delimiter}Product quality refers to the characteristics and features of a product that determine its ability to satisfy customer needs and expectations)
+{record_delimiter}
+("entity"{tuple_delimiter}CUSTOMERS{tuple_delimiter}PERSON{tuple_delimiter}Customers are individuals or entities that purchase goods or services from a business, often with varying preferences and beliefs about product quality)
+{record_delimiter}
+("relationship"{tuple_delimiter}UNIVERSAL BASIC INCOME{tuple_delimiter}WELFARE LOSSES{tuple_delimiter}The concept of Universal Basic Income is directly related to welfare losses as the paper discusses the negative welfare consequences of UBI in the context of economic models{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}GENERAL EQUILIBRIUM MODEL{tuple_delimiter}UNIVERSAL BASIC INCOME{tuple_delimiter}The general equilibrium model is used to analyze the effects of Universal Basic Income on welfare losses in the economy{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}IMPERFECT CAPITAL MARKETS{tuple_delimiter}GENERAL EQUILIBRIUM MODEL{tuple_delimiter}Imperfect capital markets are a key factor considered in the general equilibrium model when assessing the impact of Universal Basic Income{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}LABOR MARKET SHOCKS{tuple_delimiter}GENERAL EQUILIBRIUM MODEL{tuple_delimiter}Labor market shocks are included in the general equilibrium model to evaluate their influence on the outcomes of Universal Basic Income{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}INTERGENERATIONAL LINKAGES{tuple_delimiter}UNIVERSAL BASIC INCOME{tuple_delimiter}Intergenerational linkages are discussed in relation to the welfare consequences of Universal Basic Income, particularly in skill formation and transfers{tuple_delimiter}5)
+{record_delimiter}
+("relationship"{tuple_delimiter}SKILL FORMATION{tuple_delimiter}INTERGENERATIONAL LINKAGES{tuple_delimiter}Skill formation is a process influenced by intergenerational linkages, affecting the welfare outcomes of policies like Universal Basic Income{tuple_delimiter}5)
+{record_delimiter}
+("relationship"{tuple_delimiter}TRANSFERS{tuple_delimiter}INTERGENERATIONAL LINKAGES{tuple_delimiter}Transfers are a mechanism through which intergenerational linkages operate, impacting welfare and economic outcomes{tuple_delimiter}5)
+{record_delimiter}
+("relationship"{tuple_delimiter}INFORMATION DESIGN PROBLEM{tuple_delimiter}DEMAND-MAXIMIZING FIRM{tuple_delimiter}The information design problem is relevant to demand-maximizing firms as they strategize how to present product information to influence customer beliefs{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}CUSTOMERS{tuple_delimiter}DEMAND-MAXIMIZING FIRM{tuple_delimiter}Customers are the target audience for demand-maximizing firms, whose beliefs about product quality can affect purchasing decisions{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}PRODUCT QUALITY{tuple_delimiter}INFORMATION DESIGN PROBLEM{tuple_delimiter}The information design problem involves how product quality is communicated to customers, influencing their perceptions and decisions{tuple_delimiter}6)
+{completion_delimiter}
+#############################
+
+
+
+-Real Data-
+######################
+text: {input_text}
+######################
+output:
