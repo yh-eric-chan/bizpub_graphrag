@@ -1,7 +1,9 @@
 # Tutorial: Implementing GraphRAG and Adapting It to a Domain-Specific Task
 
-## App Website: 
+## App Website and Demo: 
 [BizPub GraphRAG](https://huggingface.co/spaces/ericyhchen/bizpub_graphrag)
+
+[Video Demo](https://www.loom.com/share/5ebdae83932f4dc797e8ab5b2e510739?sid=dbdea7f2-a35c-4b51-8d4f-741c36241c97)
 
 ## Our Workflow:
 
