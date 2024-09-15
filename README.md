@@ -72,6 +72,6 @@ Remember to adjust the relevant sections of the `settings.yaml` file for prompt-
 
 ### Step 8: Implement the Hybrid Prompt Tuning to Further Improve Auto-Tuned Prompt
 
-Raw Prompt vs Auto-tuned Prompt vs Hybrid Prompt
+Raw Prompt vs Auto-tuned Prompt vs Hybrid Prompt. Please refer to the prompts for detail.
 
 <img width="468" alt="image" src="https://github.com/user-attachments/assets/6438fc70-b2cc-4834-9e09-579c8e5e0e44">
